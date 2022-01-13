@@ -89,8 +89,7 @@ int main(int argc, char **argv)
 	auto image = make_shared<Image>(width, height);
 	//	generate view matrix
 	glm::mat4 view{ 0.0 };
-	// columns indexed before rows
-	view = graphics::get_view
+	view = graphics::get_view(width, height);
 	// generate perspective matrix
 	glm::mat4 persp{ 0.0 };
 	float angleOfView = 90;
@@ -102,7 +101,7 @@ int main(int argc, char **argv)
 	persp = graphics::glFrustum(b, t, l, r, near, far);
 	// generate camera matrix
 	glm::mat4 worldToCamera(1.0);
-	worldToCamera[3][1] = 16;
+	worldToCamera[3][1] = 0;
 	worldToCamera[3][2] = -30;
 	// Create Triangle
 	Triangle tri("tri");
@@ -112,24 +111,14 @@ int main(int argc, char **argv)
 	//apply transformations
 	
 	glm::vec4 result_a = view * persp * worldToCamera * tri.p_list_vertex[0].coord();
-	// perseptive divide
-	result_a[0] = result_a[0] / result_a[3];
-	result_a[1] = result_a[1] / result_a[3];
 	glm::vec4 result_b = view * persp * worldToCamera * tri.p_list_vertex[1].coord();
-	// perseptive divide
-	result_b[0] = result_b[0] / result_b[3];
-	result_b[1] = result_b[1] / result_b[3];
 	glm::vec4 result_c = view * persp * worldToCamera * tri.p_list_vertex[2].coord();
-	// perseptive divide
-	result_c[0]= result_c[0] / (float) result_c[3];
-	result_c[1] = result_c[1] / (float) result_c[3];
-	
-	draw_line(result_a, result_b, image, 255, 0 ,0 );
-	draw_line(result_b, result_c, image, 0, 255, 0);
-	draw_line(result_c, result_a, image, 0, 0, 255);
-	image->setPixel(result_a.x, result_a.y, 255, 255, 0); // yellow
-	image->setPixel(result_b.x, result_b.y, 0, 255, 255); // light blue
-	image->setPixel(result_c.x, result_c.y, 255, 0, 255); // pink
+	graphics::draw_line(graphics::per_divide(result_a), graphics::per_divide( result_b), image, 255, 0 ,0 );
+	graphics::draw_line(graphics::per_divide(result_b), graphics::per_divide( result_c), image, 0, 255, 0);
+	graphics::draw_line(graphics::per_divide(result_c), graphics::per_divide( result_a), image, 0, 0, 255);
+	image->setPixel(graphics::per_divide(result_a).x, graphics::per_divide(result_a).y, 255, 255, 0); // yellow
+	image->setPixel(graphics::per_divide(result_b).x, graphics::per_divide(result_b).y, 0, 255, 255); // light blue
+	image->setPixel(graphics::per_divide(result_c).x, graphics::per_divide(result_c).y, 255, 0, 255); // pink
 	image->writeToFile(filename);
 	return 0;
 }

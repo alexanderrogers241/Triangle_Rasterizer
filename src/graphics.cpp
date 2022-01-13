@@ -4,18 +4,18 @@ namespace graphics
 {
 	namespace  //private namespace functions and variables
 	{
-		bool comp_x(const glm::vec4& a, const glm::vec4& b)
+		bool comp_x(const glm::vec3& a, const glm::vec3& b)
 		{
 			return (a.x < b.x);
 		}
-		bool comp_y(const glm::vec4& a, const glm::vec4& b)
+		bool comp_y(const glm::vec3& a, const glm::vec3& b)
 		{
 			return (a.y < b.y);
 		}
 	}
 	// constants
 	// Functions
-	void draw_line(glm::vec4 point_A, glm::vec4 point_B, std::shared_ptr<Image> Image, unsigned char r, unsigned char g, unsigned char b)
+	void draw_line(glm::vec3 point_A, glm::vec3 point_B, std::shared_ptr<Image> Image, unsigned char r, unsigned char g, unsigned char b)
 	{
 		// drawing right to left
 		float slope{ 0 };
@@ -104,6 +104,15 @@ namespace graphics
 		view[2] = glm::vec4(0, 0, 1, 0);
 		view[3] = glm::vec4((width - 1) / 2, (height - 1) / 2, 0, 1);
 		return view;
+	}
+
+	glm::vec3 per_divide(glm::vec4& input)
+	{
+		glm::vec3 output{ 0.0 };
+		output[0] = input[0] / input[3];
+		output[1] = input[1] / input[3];
+		output[2] = input[2];
+		return output;
 	}
 
 }
