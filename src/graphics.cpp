@@ -13,7 +13,6 @@ namespace graphics
 			return (a.y < b.y);
 		}
 	}
-	// constants
 	// Functions
 	void draw_line(glm::vec3 point_A, glm::vec3 point_B, std::shared_ptr<Image> Image, unsigned char r, unsigned char g, unsigned char b)
 	{
@@ -115,4 +114,50 @@ namespace graphics
 		return output;
 	}
 
+	//modified from https://github.com/Maxrod98/CSCE441-A1/
+	std::shared_ptr<std::vector<std::shared_ptr<Vertex>>> conv_verts(std::vector<float>& buff)
+	{  
+		using  cmplx_ptr = std::shared_ptr<std::vector<std::shared_ptr<Vertex>>>;
+
+		cmplx_ptr vert_list = std::make_shared<std::vector<std::shared_ptr<Vertex>>>();
+
+		std::vector<float>::iterator it;
+
+		for (std::vector<float>::iterator it = buff.begin(); it < buff.end(); it = it + 3)
+		{
+			vert_list->push_back(std::make_shared<Vertex>(glm::vec4(*it, *(it + 1), *(it + 2), 0)));
+		}
+		return vert_list;
+	}
+
+	std::shared_ptr<std::vector<std::shared_ptr<Triangle>>> conv_tri(std::shared_ptr<std::vector<std::shared_ptr<Vertex>>> vertBuf)
+	{
+		using  cmplx_ptr = std::shared_ptr<std::vector<std::shared_ptr<Triangle>>>;
+
+		cmplx_ptr tri_list = std::make_shared<std::vector<std::shared_ptr<Triangle>>>();
+
+		for (auto it = vertBuf->begin(); it < vertBuf->end(); it = it + 3)
+		{
+			tri_list->push_back(std::make_shared<Triangle>(*(*it), *(*(it + 1)), *(*(it + 2))));
+		}
+		return tri_list;
+	}
+	void transbuff(glm::mat4& M, std::shared_ptr<std::vector<std::shared_ptr<Vertex>>> vert_buff)
+	{
+		for each  (auto v in *vert_buff)
+		{
+			v->coord( M * v->coord());
+		}
+	}
+	void drawtrianglesbox(std::shared_ptr<std::vector<std::shared_ptr<Triangle>>> buff, std::shared_ptr<Image> Image)
+	{
+		int count{ 0 };
+		for each (auto tri in *buff)
+		{
+			 //get random color
+			glm::vec3 color = glm::vec3(RANDOM_COLORS[count % 7][0], RANDOM_COLORS[count % 7][1], RANDOM_COLORS[count % 7][2]);
+			tri->draw_box(Image, color);
+			count++;
+		}
+	}
 }
