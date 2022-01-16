@@ -61,7 +61,7 @@ int main(int argc, char **argv)
 	//	return 0;
 	//}
 
-	string meshName("../resources/tri.obj");
+	string meshName("../resources/teapot.obj");
 	// Load geometry
 	vector<float> posBuf; // list of vertex positions
 	vector<float> norBuf; // list of vertex normals
@@ -116,6 +116,7 @@ int main(int argc, char **argv)
 	int height = 512;
 	auto image = make_shared<Image>(width, height);
 	Camera Cam(width, height);
+	Cam.camera_coord(glm::vec4(0, 0, -2, 0));
 
 	// convert posBuff into a vertex buffer
 	using  cmplx_ptr_vert = std::shared_ptr<std::vector<std::shared_ptr<Vertex>>>;

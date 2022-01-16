@@ -125,7 +125,9 @@ namespace graphics
 
 		for (std::vector<float>::iterator it = buff.begin(); it < buff.end(); it = it + 3)
 		{
-			vert_list->push_back(std::make_shared<Vertex>(glm::vec4(*it, *(it + 1), *(it + 2), 0)));
+
+			// vertex[3] = 1 because it is a location
+			vert_list->push_back(std::make_shared<Vertex>(glm::vec4(*it, *(it + 1), *(it + 2), 1)));
 		}
 		return vert_list;
 	}
