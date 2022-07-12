@@ -116,7 +116,7 @@ int main(int argc, char **argv)
 	int height = 512;
 	auto image = make_shared<Image>(width, height);
 	Camera Cam(width, height);
-	Cam.camera_coord(glm::vec4(0, 0, -2, 0));
+	Cam.camera_coord(glm::vec4(0, 0, -50, 0));
 
 	// convert posBuff into a vertex buffer
 	using  cmplx_ptr_vert = std::shared_ptr<std::vector<std::shared_ptr<Vertex>>>;
@@ -125,6 +125,13 @@ int main(int argc, char **argv)
 	// apply matrix transformation to vertbuffer
 	graphics::transbuff(Cam.get_transmatrix(), vertBuf);
 
+	// perspective divide the vertexs to get cart coords
+
+	graphics::conv_cart(vertBuf);
+
+	// scale model to fill screen
+
+	graphics::scaleandtranslate(vertBuf, image);
 	// convert vertex buffer into triangle buffer
 	std::shared_ptr<std::vector<std::shared_ptr<Triangle>>> triBuf = graphics::conv_tri(vertBuf);
 

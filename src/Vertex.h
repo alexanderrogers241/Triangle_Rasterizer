@@ -4,10 +4,10 @@
 #include <glm/glm.hpp>
 class Vertex
 {
-private:
+public:
 	glm::vec4 m_color;
 	glm::vec4 m_position;
-public:
+
 	Vertex() {
 		m_color = glm::vec4(0);
 		m_position = glm::vec4(0.0f);

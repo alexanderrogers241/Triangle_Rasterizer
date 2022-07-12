@@ -39,15 +39,19 @@ namespace graphics
     
     glm::mat4 get_view(int width, int height);
 
-    glm::vec3 per_divide(glm::vec4& input);
+    glm::vec4 per_divide(glm::vec4& input);
 
     //modified from https://github.com/Maxrod98/CSCE441-A1/
     std::shared_ptr<std::vector<std::shared_ptr<Vertex>>> conv_verts(std::vector<float>& buff);
+
+    std::shared_ptr<std::vector<std::shared_ptr<Vertex>>> conv_cart(std::shared_ptr<std::vector<std::shared_ptr<Vertex>>> vertBuf);
 
     std::shared_ptr<std::vector<std::shared_ptr<Triangle>>> conv_tri(std::shared_ptr<std::vector<std::shared_ptr<Vertex>>> vertBuf);
     
     void transbuff(glm::mat4& M, std::shared_ptr<std::vector<std::shared_ptr<Vertex>>> vert_buff);
 
     void drawtrianglesbox(std::shared_ptr<std::vector<std::shared_ptr<Triangle>>> buff, std::shared_ptr<Image> Image);
+
+    void scaleandtranslate(std::shared_ptr<std::vector<std::shared_ptr<Vertex>>> desiredWidth, std::shared_ptr<Image> desiredHeight);
 }
 #endif

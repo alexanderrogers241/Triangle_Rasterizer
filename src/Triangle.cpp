@@ -42,7 +42,7 @@
 		std::vector<glm::vec3> cart_coord;
 		for each (auto c in m_list_vertex)
 		{
-			cart_coord.push_back(graphics::per_divide(c.coord()));
+			cart_coord.push_back(c.coord());
 		}
 		// Draw a rectangle
 		for (int y = 0; y < pic->getHeight(); ++y) {
@@ -90,22 +90,22 @@
 	{
 
 		// perspective divide
-		std::vector<glm::vec3> cart_coord;
+		std::vector<glm::vec4> cart_coord;
 		for each (auto c in m_list_vertex)
 		{
-			cart_coord.push_back(graphics::per_divide(c.coord()));
+			cart_coord.push_back(c.coord());
 		}
-		std::vector<glm::vec3>::iterator output;
-		output = std::max_element(cart_coord.begin(), cart_coord.end(), [](const glm::vec3 a, const glm::vec3 b) { return a.x < b.x; });
+		std::vector<glm::vec4>::iterator output;
+		output = std::max_element(cart_coord.begin(), cart_coord.end(), [](const glm::vec4 a, const glm::vec4 b) { return a[0] < b[0]; });
 		float max_x = output->x;
 
-		output = std::max_element(cart_coord.begin(), cart_coord.end(), [](const glm::vec3 a, const glm::vec3 b) { return a.y < b.y; });
+		output = std::max_element(cart_coord.begin(), cart_coord.end(), [](const glm::vec4 a, const glm::vec4 b) { return a.y < b.y; });
 		float max_y = output->y;
 
-		output = std::min_element(cart_coord.begin(), cart_coord.end(), [](const glm::vec3 a, const glm::vec3 b) { return a.x < b.x; });
+		output = std::min_element(cart_coord.begin(), cart_coord.end(), [](const glm::vec4 a, const glm::vec4 b) { return a.x < b.x; });
 		float min_x = output->x;
 
-		output = std::min_element(cart_coord.begin(), cart_coord.end(), [](const glm::vec3 a, const glm::vec3 b) { return a.y < b.y; });
+		output = std::min_element(cart_coord.begin(), cart_coord.end(), [](const glm::vec4 a, const glm::vec4 b) { return a.y < b.y; });
 		float min_y = output->y;
 
 		// draw bound box
