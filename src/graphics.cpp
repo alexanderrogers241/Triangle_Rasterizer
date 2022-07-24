@@ -189,6 +189,8 @@ namespace graphics
 		double max_y = (*output.second)->y();
 		double y_height = max_y - min_y;
 
+
+		// subtracting min x and min yso we start at [0,0]
 		for each (auto v in *vertBuf)
 		{
 			v->m_position = v->m_position - glm::vec4(min_x, min_y, 0, 0);
@@ -211,8 +213,9 @@ namespace graphics
 		min_y = (*output.first)->y();
 		max_y = (*output.second)->y();
 		y_height = max_y - min_y;
-		double translationY = ((double) Image->getHeight() - y_height / 2.0);
-		double translationX = ((double)Image ->getWidth() - x_width / 2.0);
+
+		double translationY = (((double) Image->getHeight() - y_height) / 2.0);
+		double translationX = (((double)Image ->getWidth() - x_width)/ 2.0);
 
 		for each (auto v in *vertBuf)
 		{
