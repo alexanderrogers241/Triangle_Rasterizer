@@ -108,9 +108,9 @@ namespace graphics
 	glm::vec3 per_divide(glm::vec4& input)
 	{
 		glm::vec3 output{ 0.0 };
-		output[0] = input[0] / input[3];
-		output[1] = input[1] / input[3];
-		output[2] = input[2];
+		output[0] = ( input[0]) / input[3];
+		output[1] = ( input[1]) / input[3];
+		output[2] = ( input[2]) / input[3];
 		return output;
 	}
 
@@ -157,8 +157,19 @@ namespace graphics
 		for each (auto tri in *buff)
 		{
 			 //get random color
-			glm::vec3 color = glm::vec3(RANDOM_COLORS[count % 7][0], RANDOM_COLORS[count % 7][1], RANDOM_COLORS[count % 7][2]);
+			glm::vec3 color = glm::vec3(RANDOM_COLORS[count % 10][0], RANDOM_COLORS[count % 10][1], RANDOM_COLORS[count % 10][2]);
 			tri->draw_box(Image, color);
+			count++;
+		}
+	}
+	void drawtriangles(std::shared_ptr<std::vector<std::shared_ptr<Triangle>>> buff, std::shared_ptr<Image> Image)
+	{
+		int count{ 0 };
+		for each (auto tri in *buff)
+		{
+			//get random color
+			glm::vec3 color = glm::vec3(RANDOM_COLORS[count % 10][0], RANDOM_COLORS[count % 10][1], RANDOM_COLORS[count % 10][2]);
+			tri->draw_tri(Image, color);
 			count++;
 		}
 	}

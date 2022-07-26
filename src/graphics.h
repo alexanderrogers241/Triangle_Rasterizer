@@ -20,14 +20,17 @@ namespace graphics
     // constants
     const float M_PI{ 3.14159 };
 
-    const double RANDOM_COLORS[7][3] = {
+    const double RANDOM_COLORS[10][3] = {
         {0.0000,    0.4470,    0.7410},
         {0.8500,    0.3250,    0.0980},
         {0.9290,    0.6940,    0.1250},
         {0.4940,    0.1840,    0.5560},
         {0.4660,    0.6740,    0.1880},
         {0.3010,    0.7450,    0.9330},
-        {0.6350,    0.0780,    0.1840},
+        {0.2000,    0.0780,    0.1840},
+        {0.6350,    0.2000,    0.1840},
+        {0.6350,    0.0780,    0.4000},
+        {0.7000,    0.8000,    0.0050},
     };
     void draw_line(glm::vec3 point_A, glm::vec3 point_B, std::shared_ptr<Image> Image, unsigned char r, unsigned char g, unsigned char b);
     
@@ -49,5 +52,6 @@ namespace graphics
     void transbuff(glm::mat4& M, std::shared_ptr<std::vector<std::shared_ptr<Vertex>>> vert_buff);
 
     void drawtrianglesbox(std::shared_ptr<std::vector<std::shared_ptr<Triangle>>> buff, std::shared_ptr<Image> Image);
+    void drawtriangles(std::shared_ptr<std::vector<std::shared_ptr<Triangle>>> buff, std::shared_ptr<Image> Image);
 }
 #endif

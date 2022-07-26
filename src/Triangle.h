@@ -20,6 +20,7 @@ private:
 	bool comp_y(const glm::vec3& a, const glm::vec3& b);
 
 	std::vector<Vertex> m_list_vertex;
+	std::vector<glm::vec3> m_xy_coord;
 public:
 	// old implementation as a vector of vertexes
 
@@ -40,8 +41,11 @@ public:
 
 	void draw_box(std::shared_ptr<Image> pic, glm::vec3 color);
 
-	glm::vec4 bary_coord(glm::vec4 point);
+	glm::vec3 bary_coord(glm::vec3 point);
 
+	void draw_tri(std::shared_ptr<Image> pic, glm::vec3 color);
+
+	bool Triangle::bary_coord_point_inside(glm::vec3 point);
 };
 #endif
 

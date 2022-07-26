@@ -19,8 +19,10 @@ void Camera::gluPerspective(const float& angleOfView, const float& imageAspectRa
 	float& b, float& t, float& l, float& r)
 {
 	float scale = tan(angleOfView * 0.5 * graphics::M_PI / 180) * n;
-	r = imageAspectRatio * scale, l = -r;
-	t = scale, b = -t;
+	r = imageAspectRatio * scale;
+	l = -r;
+	t = scale;
+	b = -t;
 }
 
 glm::mat4 Camera::glFrustum(const float& b, const float& t, const float& l, const float& r,
@@ -28,7 +30,7 @@ glm::mat4 Camera::glFrustum(const float& b, const float& t, const float& l, cons
 {
 	glm::mat4 M{ 0.0 };
 
-	// set OpenGL perspective projection matrix
+	// set OpenGL perspective projection matrix pg. 155 fundamentals of computer graphics
 	M[0][0] = 2 * n / (r - l);
 	M[0][1] = 0;
 	M[0][2] = 0;
@@ -55,9 +57,9 @@ Camera::Camera(int scr_width, int scr_height)
 	:m_scrn_width(scr_height), m_scrn_height(scr_height)
 {
 	m_angleOfView = 90;
-	m_near = 0.1;
+	m_near = .1;
 	m_far = 100;
-	m_imageAspectRatio = m_scrn_width / (float) m_scrn_height;
+	m_imageAspectRatio = (float) m_scrn_width / (float) m_scrn_height;
 	m_b = 0;
 	m_t = 0;
 	m_l = 0;
@@ -69,7 +71,7 @@ Camera::Camera(int scr_width, int scr_height)
 	m_persp = glFrustum(m_b, m_t, m_l, m_r, m_near, m_far);
 	m_worldtocamera = glm::mat4(1.0);
 	m_worldtocamera[3][1] = 0;
-	m_worldtocamera[3][2] = -30; // camera is 30 unit_z down the positive z axsis;
+	m_worldtocamera[3][2] = -40; // camera is 30 unit_z down the positive z axsis;
 }
 
 void Camera::camera_coord(glm::vec4 coords)
