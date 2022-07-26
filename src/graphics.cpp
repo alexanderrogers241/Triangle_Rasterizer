@@ -93,7 +93,7 @@ namespace graphics
 		return M;
 	}
 
-	glm::mat4 get_view(int width, int height) 
+	glm::mat4 get_view(int width, int height)
 	{
 		//	generate view matrix
 		glm::mat4 view{ 0.0 };
@@ -107,17 +107,16 @@ namespace graphics
 
 	glm::vec4 per_divide(glm::vec4& input)
 	{
-		glm::vec4 output{ 0.0 };
-		output[0] = input[0] / input[3];
-		output[1] = input[1] / input[3];
-		output[2] = input[2];
-		output[3] = output[3];
+		glm::vec3 output{ 0.0 };
+		output[0] = ( input[0]) / input[3];
+		output[1] = ( input[1]) / input[3];
+		output[2] = ( input[2]) / input[3];
 		return output;
 	}
 
 	//modified from https://github.com/Maxrod98/CSCE441-A1/
 	std::shared_ptr<std::vector<std::shared_ptr<Vertex>>> conv_verts(std::vector<float>& buff)
-	{  
+	{
 		using  cmplx_ptr = std::shared_ptr<std::vector<std::shared_ptr<Vertex>>>;
 
 		cmplx_ptr vert_list = std::make_shared<std::vector<std::shared_ptr<Vertex>>>();
@@ -171,15 +170,24 @@ namespace graphics
 		for each (auto tri in *buff)
 		{
 			 //get random color
-			glm::vec3 color = glm::vec3(RANDOM_COLORS[count % 7][0], RANDOM_COLORS[count % 7][1], RANDOM_COLORS[count % 7][2]);
+			glm::vec3 color = glm::vec3(RANDOM_COLORS[count % 10][0], RANDOM_COLORS[count % 10][1], RANDOM_COLORS[count % 10][2]);
 			tri->draw_box(Image, color);
 			count++;
 		}
 	}
+	void drawtriangles(std::shared_ptr<std::vector<std::shared_ptr<Triangle>>> buff, std::shared_ptr<Image> Image)
+	{
+		int count{ 0 };
+		for each (auto tri in *buff)
+		{
+			//get random color
+			glm::vec3 color = glm::vec3(RANDOM_COLORS[count % 10][0], RANDOM_COLORS[count % 10][1], RANDOM_COLORS[count % 10][2]);
+			tri->draw_tri(Image, color);
+			count++;
 	void scaleandtranslate(std::shared_ptr<std::vector<std::shared_ptr<Vertex>>> vertBuf, std::shared_ptr<Image> Image) {
 		// Normalize ....get minimum X and Y vertexes and subtract so we start at [0,0]
 		// this way we use full range or screen
-		
+
 		std::pair output = std::minmax_element(vertBuf->begin(), vertBuf->end(), [](const std::shared_ptr<Vertex> a, const std::shared_ptr<Vertex> b) { return a->m_position[0] < b->m_position[0];});
 		double min_x = (*output.first)->x();
 		double max_x = (*output.second)->x();

@@ -111,12 +111,15 @@ int main(int argc, char **argv)
 
 	// Set Up Camera
 	// Width of image
-	int width = 512;
+	int width = 1920;
 	// Height of image
-	int height = 512;
+	int height = 1080;
 	auto image = make_shared<Image>(width, height);
 	Camera Cam(width, height);
-	Cam.camera_coord(glm::vec4(0, 0, -50, 0));
+	// for the tri.obj
+	//Cam.camera_coord(glm::vec4(1, 0, -10, 0));
+	// for the sphere.obj
+	Cam.camera_coord(glm::vec4(1, 0, -3, 0));
 
 	// convert posBuff into a vertex buffer
 	using  cmplx_ptr_vert = std::shared_ptr<std::vector<std::shared_ptr<Vertex>>>;
@@ -136,7 +139,7 @@ int main(int argc, char **argv)
 	std::shared_ptr<std::vector<std::shared_ptr<Triangle>>> triBuf = graphics::conv_tri(vertBuf);
 
 	// draw each triangle in triangle buffer
-	graphics::drawtrianglesbox(triBuf, image);
+	graphics::drawtriangles(triBuf, image);
 	image->writeToFile("output.png");
 	return 0;
 }
