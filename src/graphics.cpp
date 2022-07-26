@@ -107,7 +107,7 @@ namespace graphics
 
 	glm::vec4 per_divide(glm::vec4& input)
 	{
-		glm::vec3 output{ 0.0 };
+		glm::vec4 output{ 0.0 };
 		output[0] = ( input[0]) / input[3];
 		output[1] = ( input[1]) / input[3];
 		output[2] = ( input[2]) / input[3];
@@ -184,51 +184,55 @@ namespace graphics
 			glm::vec3 color = glm::vec3(RANDOM_COLORS[count % 10][0], RANDOM_COLORS[count % 10][1], RANDOM_COLORS[count % 10][2]);
 			tri->draw_tri(Image, color);
 			count++;
-	void scaleandtranslate(std::shared_ptr<std::vector<std::shared_ptr<Vertex>>> vertBuf, std::shared_ptr<Image> Image) {
-		// Normalize ....get minimum X and Y vertexes and subtract so we start at [0,0]
-		// this way we use full range or screen
 
-		std::pair output = std::minmax_element(vertBuf->begin(), vertBuf->end(), [](const std::shared_ptr<Vertex> a, const std::shared_ptr<Vertex> b) { return a->m_position[0] < b->m_position[0];});
-		double min_x = (*output.first)->x();
-		double max_x = (*output.second)->x();
-		double x_width = max_x - min_x;
-		output = std::minmax_element(vertBuf->begin(), vertBuf->end(), [](const std::shared_ptr<Vertex> a, const std::shared_ptr<Vertex> b) { return a->m_position[1] < b->m_position[1];});
-		double min_y = (*output.first)->y();
-		double max_y = (*output.second)->y();
-		double y_height = max_y - min_y;
-
-
-		// subtracting min x and min yso we start at [0,0]
-		for each (auto v in *vertBuf)
-		{
-			v->m_position = v->m_position - glm::vec4(min_x, min_y, 0, 0);
-		}
-
-		double  ratio = std::min(((double)Image->getWidth() / x_width), ((double)Image->getHeight() / y_height));
-
-		for each (auto v in *vertBuf)
-		{
-			v->m_position[0] = v->m_position[0] * ratio;
-			v->m_position[1] = v->m_position[1] * ratio;
-			v->m_position[2] = v->m_position[2] * ratio;
-		}
-
-		output = std::minmax_element(vertBuf->begin(), vertBuf->end(), [](const std::shared_ptr<Vertex> a, const std::shared_ptr<Vertex> b) { return a->m_position[0] < b->m_position[0]; });
-		min_x = (*output.first)->x();
-		max_x = (*output.second)->x();
-		x_width = max_x - min_x;
-		output = std::minmax_element(vertBuf->begin(), vertBuf->end(), [](const std::shared_ptr<Vertex> a, const std::shared_ptr<Vertex> b) { return a->m_position[1] < b->m_position[1]; });
-		min_y = (*output.first)->y();
-		max_y = (*output.second)->y();
-		y_height = max_y - min_y;
-
-		double translationY = (((double) Image->getHeight() - y_height) / 2.0);
-		double translationX = (((double)Image ->getWidth() - x_width)/ 2.0);
-
-		for each (auto v in *vertBuf)
-		{
-			v->m_position[0] = v->m_position[0] + translationX;
-			v->m_position[1] = v->m_position[1] + translationY;
 		}
 	}
+
+	//void scaleandtranslate(std::shared_ptr<std::vector<std::shared_ptr<Vertex>>> vertBuf, std::shared_ptr<Image> Image) {
+	//	// Normalize ....get minimum X and Y vertexes and subtract so we start at [0,0]
+	//	// this way we use full range or screen
+
+	//	std::pair output = std::minmax_element(vertBuf->begin(), vertBuf->end(), [](const std::shared_ptr<Vertex> a, const std::shared_ptr<Vertex> b) { return a->m_position[0] < b->m_position[0];});
+	//	double min_x = (*output.first)->x();
+	//	double max_x = (*output.second)->x();
+	//	double x_width = max_x - min_x;
+	//	output = std::minmax_element(vertBuf->begin(), vertBuf->end(), [](const std::shared_ptr<Vertex> a, const std::shared_ptr<Vertex> b) { return a->m_position[1] < b->m_position[1];});
+	//	double min_y = (*output.first)->y();
+	//	double max_y = (*output.second)->y();
+	//	double y_height = max_y - min_y;
+
+
+	//	// subtracting min x and min yso we start at [0,0]
+	//	for each (auto v in *vertBuf)
+	//	{
+	//		v->m_position = v->m_position - glm::vec4(min_x, min_y, 0, 0);
+	//	}
+
+	//	double  ratio = std::min(((double)Image->getWidth() / x_width), ((double)Image->getHeight() / y_height));
+
+	//	for each (auto v in *vertBuf)
+	//	{
+	//		v->m_position[0] = v->m_position[0] * ratio;
+	//		v->m_position[1] = v->m_position[1] * ratio;
+	//		v->m_position[2] = v->m_position[2] * ratio;
+	//	}
+
+	//	output = std::minmax_element(vertBuf->begin(), vertBuf->end(), [](const std::shared_ptr<Vertex> a, const std::shared_ptr<Vertex> b) { return a->m_position[0] < b->m_position[0]; });
+	//	min_x = (*output.first)->x();
+	//	max_x = (*output.second)->x();
+	//	x_width = max_x - min_x;
+	//	output = std::minmax_element(vertBuf->begin(), vertBuf->end(), [](const std::shared_ptr<Vertex> a, const std::shared_ptr<Vertex> b) { return a->m_position[1] < b->m_position[1]; });
+	//	min_y = (*output.first)->y();
+	//	max_y = (*output.second)->y();
+	//	y_height = max_y - min_y;
+
+	//	double translationY = (((double) Image->getHeight() - y_height) / 2.0);
+	//	double translationX = (((double)Image ->getWidth() - x_width)/ 2.0);
+
+	//	for each (auto v in *vertBuf)
+	//	{
+	//		v->m_position[0] = v->m_position[0] + translationX;
+	//		v->m_position[1] = v->m_position[1] + translationY;
+	//	}
+	//}
 }

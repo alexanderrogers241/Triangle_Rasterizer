@@ -56,6 +56,6 @@ namespace graphics
     void drawtrianglesbox(std::shared_ptr<std::vector<std::shared_ptr<Triangle>>> buff, std::shared_ptr<Image> Image);
     void drawtriangles(std::shared_ptr<std::vector<std::shared_ptr<Triangle>>> buff, std::shared_ptr<Image> Image);
 
-    void scaleandtranslate(std::shared_ptr<std::vector<std::shared_ptr<Vertex>>> desiredWidth, std::shared_ptr<Image> desiredHeight);
+    // void scaleandtranslate(std::shared_ptr<std::vector<std::shared_ptr<Vertex>>> desiredWidth, std::shared_ptr<Image> desiredHeight);
 }
 #endif

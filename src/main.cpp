@@ -119,7 +119,7 @@ int main(int argc, char **argv)
 	// for the tri.obj
 	//Cam.camera_coord(glm::vec4(1, 0, -10, 0));
 	// for the sphere.obj
-	Cam.camera_coord(glm::vec4(1, 0, -3, 0));
+	Cam.camera_coord(glm::vec4(1, 0, -2.5, 0));
 
 	// convert posBuff into a vertex buffer
 	using  cmplx_ptr_vert = std::shared_ptr<std::vector<std::shared_ptr<Vertex>>>;
@@ -134,7 +134,7 @@ int main(int argc, char **argv)
 
 	// scale model to fill screen
 
-	graphics::scaleandtranslate(vertBuf, image);
+	// graphics::scaleandtranslate(vertBuf, image);
 	// convert vertex buffer into triangle buffer
 	std::shared_ptr<std::vector<std::shared_ptr<Triangle>>> triBuf = graphics::conv_tri(vertBuf);
 
