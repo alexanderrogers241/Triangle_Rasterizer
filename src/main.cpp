@@ -61,7 +61,7 @@ int main(int argc, char **argv)
 	//	return 0;
 	//}
 
-	string meshName("../resources/teapot.obj");
+	string meshName("../resources/sphere.obj");
 	// Load geometry
 	vector<float> posBuf; // list of vertex positions
 	vector<float> norBuf; // list of vertex normals
