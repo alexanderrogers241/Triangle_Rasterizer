@@ -107,10 +107,12 @@ namespace graphics
 
 	glm::vec4 per_divide(glm::vec4& input)
 	{
+		// also known as normalize
 		glm::vec4 output{ 0.0 };
 		output[0] = ( input[0]) / input[3];
 		output[1] = ( input[1]) / input[3];
 		output[2] = ( input[2]) / input[3];
+		output[3] = ( input[3]) / input[3];
 		return output;
 	}
 
@@ -134,15 +136,17 @@ namespace graphics
 
 	std::shared_ptr<std::vector<std::shared_ptr<Vertex>>> conv_cart(std::shared_ptr<std::vector<std::shared_ptr<Vertex>>> vertBuf)
 	{
+		// INPUT: Vertexbuffer
+		// OUTPUT: Pixalbuffer
 		using  cmplx_ptr = std::shared_ptr<std::vector<std::shared_ptr<Vertex>>>;
 
-		cmplx_ptr vert_list = std::make_shared<std::vector<std::shared_ptr<Vertex>>>();
+		cmplx_ptr pixal_buffer = std::make_shared<std::vector<std::shared_ptr<Vertex>>>();
 
 		for each (auto c in *vertBuf)
 		{
-			vert_list->push_back(std::make_shared<Vertex>(graphics::per_divide(c->coord())));
+			pixal_buffer->push_back(std::make_shared<Vertex>(graphics::per_divide(c->coord())));
 		}
-		return vert_list;
+		return pixal_buffer;
 	}
 
 	std::shared_ptr<std::vector<std::shared_ptr<Triangle>>> conv_tri(std::shared_ptr<std::vector<std::shared_ptr<Vertex>>> vertBuf)
@@ -157,10 +161,13 @@ namespace graphics
 		}
 		return tri_list;
 	}
+
+
 	void transbuff(glm::mat4& M, std::shared_ptr<std::vector<std::shared_ptr<Vertex>>> vert_buff)
 	{
 		for each  (auto v in *vert_buff)
 		{
+			glm::vec4 new_cord = M * v->coord();
 			v->coord( M * v->coord());
 		}
 	}
@@ -182,7 +189,7 @@ namespace graphics
 		{
 			//get random color
 			glm::vec3 color = glm::vec3(RANDOM_COLORS[count % 10][0], RANDOM_COLORS[count % 10][1], RANDOM_COLORS[count % 10][2]);
-			tri->draw_tri(Image, color);
+			tri->draw_tri_2(Image, color);
 			count++;
 
 		}

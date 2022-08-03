@@ -7,10 +7,18 @@ class Vertex
 public:
 	glm::vec4 m_color;
 	glm::vec4 m_position;
+	float m_x;
+	float m_y;
+	float m_z;
+	float m_w;
 
 	Vertex() {
 		m_color = glm::vec4(0);
 		m_position = glm::vec4(0.0f);
+		m_x = 0;
+		m_y = 0;
+		m_z = 0;
+		m_w = 0;
 	}
 
 	Vertex(float x, float y, float z );

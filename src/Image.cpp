@@ -26,11 +26,11 @@ void Image::setPixel(int x, int y, unsigned char r, unsigned char g, unsigned ch
 
 	// First check for bounds
 	if(y < 0 || y >= height) {
-		cout << "Row " << y << " is out of bounds" << endl;
+		//cout << "Row " << y << " is out of bounds" << endl;
 		return;
 	}
 	if(x < 0 || x >= width) {
-		cout << "Col " << x << " is out of bounds" << endl;
+		//cout << "Col " << x << " is out of bounds" << endl;
 		return;
 	}
 

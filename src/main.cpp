@@ -10,6 +10,36 @@
 // You should never do this in a header file.
 using namespace std;
 
+void PrintMatrix(glm::mat4 M, std::string name)
+{
+
+	std::cout << "\n";
+	std::cout << name;
+	std::cout << "\n"; 
+	std::cout << M[0][0] <<"\t" << M[1][0] << "\t" << M[2][0] <<"\t" << M[3][0] << "\n" ;
+	std::cout << M[0][1] << "\t" << M[1][1] << "\t" << M[2][1] << "\t" << M[3][1] << "\n";
+	std::cout << M[0][2] << "\t" << M[1][2] << "\t" << M[2][2] << "\t" << M[3][2] << "\n";
+	std::cout << M[0][3] << "\t" << M[1][3] << "\t" << M[2][3] << "\t" << M[3][3] << "\n";
+	std::cout << "\n";
+}
+void PrintVertexs(std::shared_ptr<std::vector<std::shared_ptr<Vertex>>> V)
+{
+
+	std::cout << "\n";
+	
+	for each (auto v in *V)
+	{
+		
+		std::cout << "vertex:\n";
+		glm::vec4 vector = v->coord();
+		std::cout << float(vector[0])<< "\n";
+		std::cout << float(vector[1]) << "\n";
+		std::cout << float(vector[2]) << "\n";
+		std::cout << float(vector[3]) << "\n";
+		std::cout << "\n";
+	}
+	
+}
 int main(int argc, char **argv)
 {
 	bool test_ref{ false };
@@ -61,7 +91,7 @@ int main(int argc, char **argv)
 	//	return 0;
 	//}
 
-	string meshName("../resources/sphere.obj");
+	string meshName("../resources/tri.obj");
 	// Load geometry
 	vector<float> posBuf; // list of vertex positions
 	vector<float> norBuf; // list of vertex normals
@@ -117,26 +147,41 @@ int main(int argc, char **argv)
 	auto image = make_shared<Image>(width, height);
 	Camera Cam(width, height);
 	// for the tri.obj
-	//Cam.camera_coord(glm::vec4(1, 0, -10, 0));
+	Cam.camera_coord(glm::vec4(0, 0, -15, 0));
 	// for the sphere.obj
-	Cam.camera_coord(glm::vec4(1, 0, -2.5, 0));
+	// Cam.camera_coord(glm::vec4(0, 0, -2, 0));
+	// for the teapot.obj
+	//Cam.camera_coord(glm::vec4(0, 0, -2, 0));
 
 	// convert posBuff into a vertex buffer
 	using  cmplx_ptr_vert = std::shared_ptr<std::vector<std::shared_ptr<Vertex>>>;
 	cmplx_ptr_vert vertBuf = graphics::conv_verts(posBuf);
 
-	// apply matrix transformation to vertbuffer
-	graphics::transbuff(Cam.get_transmatrix(), vertBuf);
+	// apply matrix transformation step by step
 
-	// perspective divide the vertexs to get cart coords
-
-	graphics::conv_cart(vertBuf);
-
-	// scale model to fill screen
-
-	// graphics::scaleandtranslate(vertBuf, image);
+	// Apply world to camera transformation matrix
+	// PrintVertexs(vertBuf);
+	graphics::transbuff(Cam.GetCameraMatrix(), vertBuf);
+	PrintMatrix(Cam.GetCameraMatrix(), "Camera");
+	//PrintVertexs(vertBuf);
+	// Apply perspective transformation matrix
+	graphics::transbuff(Cam.GetPerspMatrix(), vertBuf);
+	PrintMatrix(Cam.GetPerspMatrix(), "Perspective");
+	//PrintVertexs(vertBuf);
+	// Apply ortho transformation matrix
+	graphics::transbuff(Cam.GetOrthoMatrix(), vertBuf);
+	PrintMatrix(Cam.GetOrthoMatrix(), "Ortho");
+	//PrintVertexs(vertBuf);
+	// Apply view transformation matrix
+	graphics::transbuff(Cam.GetViewMatrix(), vertBuf);
+	PrintMatrix(Cam.GetViewMatrix(), "View");
+	//PrintVertexs(vertBuf);
+	// perspective divide the vertexs to get acutaly pixal coordinates
+	using  cmplx_ptr_pixal = std::shared_ptr<std::vector<std::shared_ptr<Vertex>>>;
+	cmplx_ptr_pixal pixal_buffer = graphics::conv_cart(vertBuf);
+	PrintVertexs(pixal_buffer);
 	// convert vertex buffer into triangle buffer
-	std::shared_ptr<std::vector<std::shared_ptr<Triangle>>> triBuf = graphics::conv_tri(vertBuf);
+	std::shared_ptr<std::vector<std::shared_ptr<Triangle>>> triBuf = graphics::conv_tri(pixal_buffer);
 
 	// draw each triangle in triangle buffer
 	graphics::drawtriangles(triBuf, image);

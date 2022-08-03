@@ -4,6 +4,7 @@
 #include <glm/glm.hpp>
 #include <algorithm>
 #include <memory>
+#include <cmath>
 #include "Shape_base.h"
 #include "Vertex.h"
 #include "Image.h"
@@ -19,6 +20,7 @@ private:
 
 	bool comp_y(const glm::vec3& a, const glm::vec3& b);
 
+	float RoundBaryCoord(float in);
 	std::vector<Vertex> m_list_vertex;
 	std::vector<glm::vec3> m_xy_coord;
 public:
@@ -45,7 +47,10 @@ public:
 
 	void draw_tri(std::shared_ptr<Image> pic, glm::vec3 color);
 
+	void draw_tri_2(std::shared_ptr<Image> pic, glm::vec3 color);
+
 	bool Triangle::bary_coord_point_inside(glm::vec3 point);
+	bool bary_coord_point_inside2(glm::vec3 point);
 };
 #endif
 
