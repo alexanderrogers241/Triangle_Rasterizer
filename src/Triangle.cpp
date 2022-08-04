@@ -195,12 +195,12 @@
 		glm::vec4 b = m_list_vertex[1].coord();
 		float beta = (f_line_ac(point.x, point.y) / f_line_ac(b.x, b.y));
 		// round to 2 decimal place
-		beta = (std::round(beta * 100))/ 100;
+		//beta = (std::round(beta * 100))/ 100;
 		// determine theta coord
 		glm::vec4 c = m_list_vertex[2].coord();
 		float theta = (f_line_ab(point.x, point.y) / f_line_ab(c.x, c.y));
 		// round to 2 decimal place
-		theta = (std::round(theta * 100)) / 100;
+		//theta = (std::round(theta * 100)) / 100;
 		// determine alpha coord
 		float alpha = 1 - beta - theta;
 
