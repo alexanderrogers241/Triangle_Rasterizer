@@ -185,52 +185,75 @@ glm::mat4 Camera::GenCameraMat(const glm::vec4 location)
 }
 
 Camera::Camera(int scr_width, int scr_height)
-	:m_scrn_width(scr_width), m_scrn_height(scr_height)
-{
-	m_angleOfView = 90;
-	m_near = 14.9; // important
-	m_far = -40;// important camera facing down the negative z axsis
-	m_imageAspectRatio = (float) m_scrn_width / (float) m_scrn_height;
-	m_b = 0;
-	m_t = 0;
-	m_l = 0;
-	m_r = 0;
-	// adjusts the variables
-	gluPerspective(m_angleOfView, m_imageAspectRatio, m_near, m_far, m_b, m_t, m_l, m_r);
-	// calculate the transformation matrixes
-	m_view = GenViewMatrix(m_scrn_width, m_scrn_height);
-	m_persp = GenPerMat(m_near, m_far);
-	m_ortho = GenOrthoMat(m_b, m_t, m_l, m_r, m_near, m_far);
+	:m_scrn_width_(scr_width), m_scrn_height_(scr_height)
+{	
+	
 	// places the camera 10 z units in front of the origin
-	m_worldtocamera = GenCameraMat(glm::vec4(0, 0, 10, 0));
+	camera_location_=glm::vec4(0, 0, 10, 0);
+	m_worldtocamera_ = GenCameraMat(camera_location_);
+	m_angleOfView_ = 90;
+	//m_near = 14.9; // important remaps each time camera moves
+	//m_far = -20;// important camera facing down the negative z axsis
+	m_near_ = camera_location_.z;
+	//negative number moved down field of view
+	m_far_ = camera_location_.z - 20;
+	m_imageAspectRatio_ = (float) m_scrn_width_ / (float) m_scrn_height_;
+	m_b_ = 0;
+	m_t_ = 0;
+	m_l_ = 0;
+	m_r_ = 0;
+	// adjusts the variables
+	gluPerspective(m_angleOfView_, m_imageAspectRatio_, m_near_, m_far_, m_b_, m_t_, m_l_, m_r_);
+	// calculate the transformation matrixes
+	m_view_ = GenViewMatrix(m_scrn_width_, m_scrn_height_);
+	m_persp_ = GenPerMat(m_near_, m_far_);
+	m_ortho_ = GenOrthoMat(m_b_, m_t_, m_l_, m_r_, m_near_, m_far_);
+	
 }
 
 void Camera::camera_coord(glm::vec4 coords)
 {
-	m_worldtocamera = GenCameraMat(coords);
+
+	camera_location_ = coords;
+	m_worldtocamera_ = GenCameraMat(camera_location_);
+	m_near_ = camera_location_.z;
+	//negative number moved down field of view
+	m_far_ = camera_location_.z - 0.005;
+	m_imageAspectRatio_ = (float)m_scrn_width_ / (float)m_scrn_height_;
+	m_b_ = 0;
+	m_t_ = 0;
+	m_l_ = 0;
+	m_r_ = 0;
+	// adjusts the variables
+	gluPerspective(m_angleOfView_, m_imageAspectRatio_, m_near_, m_far_, m_b_, m_t_, m_l_, m_r_);
+	// calculate the transformation matrixes
+	m_view_ = GenViewMatrix(m_scrn_width_, m_scrn_height_);
+	m_persp_ = GenPerMat(m_near_, m_far_);
+	m_ortho_ = GenOrthoMat(m_b_, m_t_, m_l_, m_r_, m_near_, m_far_);
+	
 }
 
 glm::mat4 Camera::GetAllMatrixs()
 {
-	return m_view*m_ortho*m_persp*m_worldtocamera;
+	return m_view_*m_ortho_*m_persp_*m_worldtocamera_;
 }
 
 glm::mat4 Camera::GetViewMatrix()
 {
-	return m_view;
+	return m_view_;
 }
 
 glm::mat4 Camera::GetOrthoMatrix()
 {
-	return m_ortho;
+	return m_ortho_;
 }
 
 glm::mat4 Camera::GetPerspMatrix()
 {
-	return m_persp;
+	return m_persp_;
 }
 
 glm::mat4 Camera::GetCameraMatrix()
 {
-	return m_worldtocamera;
+	return m_worldtocamera_;
 }

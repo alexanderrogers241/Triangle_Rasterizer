@@ -13,6 +13,8 @@ Image::Image(int w, int h) :
 	comp(3),
 	pixels(width*height*comp, 0)
 {
+	
+
 }
 
 Image::~Image()
@@ -33,7 +35,6 @@ void Image::setPixel(int x, int y, unsigned char r, unsigned char g, unsigned ch
 		//cout << "Col " << x << " is out of bounds" << endl;
 		return;
 	}
-
 	// Since the origin (0, 0) of the image is the upper left corner, we need
 	// to flip the row to make the origin be the lower left corner.
 	y = height - y - 1;
@@ -42,9 +43,12 @@ void Image::setPixel(int x, int y, unsigned char r, unsigned char g, unsigned ch
 	// Multiply by 3 to get the index for the rgb components.
 	assert(index >= 0);
 	assert(3*index + 2 < (int)pixels.size());
-	pixels[3*index + 0] = r;
-	pixels[3*index + 1] = g;
-	pixels[3*index + 2] = b;
+
+	//update
+	pixels[3 * index + 0] = r;
+	pixels[3 * index + 1] = g;
+	pixels[3 * index + 2] = b;
+
 }
 
 void Image::writeToFile(const string &filename)

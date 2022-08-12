@@ -8,6 +8,7 @@
 #include "Image.h"
 #include "Vertex.h"
 #include "Triangle.h"
+#include "ZBuffer.h"
 class Triangle;
 namespace graphics
 {
@@ -32,7 +33,7 @@ namespace graphics
         {0.6350,    0.0780,    0.4000},
         {0.7000,    0.8000,    0.0050},
     };
-    void draw_line(glm::vec3 point_A, glm::vec3 point_B, std::shared_ptr<Image> Image, unsigned char r, unsigned char g, unsigned char b);
+    
 
     void gluPerspective(const float& angleOfView, const float& imageAspectRatio, const float& n, const float& f,
         float& b, float& t, float& l, float& r);
@@ -53,8 +54,7 @@ namespace graphics
 
     void transbuff(glm::mat4& M, std::shared_ptr<std::vector<std::shared_ptr<Vertex>>> vert_buff);
 
-    void drawtrianglesbox(std::shared_ptr<std::vector<std::shared_ptr<Triangle>>> buff, std::shared_ptr<Image> Image);
-    void drawtriangles(std::shared_ptr<std::vector<std::shared_ptr<Triangle>>> buff, std::shared_ptr<Image> Image);
+    void drawtriangles(std::shared_ptr<std::vector<std::shared_ptr<Triangle>>> buff, std::shared_ptr<Image> Image, std::shared_ptr<ZBuffer> z_buff);
 
     // void scaleandtranslate(std::shared_ptr<std::vector<std::shared_ptr<Vertex>>> desiredWidth, std::shared_ptr<Image> desiredHeight);
 }

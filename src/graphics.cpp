@@ -13,45 +13,6 @@ namespace graphics
 			return (a.y < b.y);
 		}
 	}
-	// Functions
-	void draw_line(glm::vec3 point_A, glm::vec3 point_B, std::shared_ptr<Image> Image, unsigned char r, unsigned char g, unsigned char b)
-	{
-		// drawing right to left
-		float slope{ 0 };
-		if (std::min(point_A, point_B, comp_x) == point_A)
-		{
-			slope = (point_B.y - point_A.y) / (point_B.x - point_A.x);
-		}
-		else
-		{
-			slope = (point_A.y - point_B.y) / (point_A.x - point_B.x);
-		}
-
-		float y_intercept = point_A.y - slope * point_A.x;
-
-		// y = slope * x + y_intercept
-		// check for straight vertical line with infinit slope
-		if (slope != INFINITY)
-		{
-			for (size_t x = std::min(point_A, point_B, comp_x).x; x < std::max(point_A, point_B, comp_x).x; x++)
-			{
-				int y = slope * x + y_intercept;
-				// set pixals to red
-				Image->setPixel(x, y, r, g, b);
-
-			}
-		}
-		else
-		{
-			for (size_t y = std::min(point_A, point_B, comp_y).y; y < std::max(point_A, point_B, comp_y).y; y++)
-			{
-				// draw straight vertical line
-				// x is constant
-				Image->setPixel(point_A.x, y, r, g, b);
-
-			}
-		}
-	}
 
 	// compute screen coordinates first
 	// from scratchapixal.com
@@ -171,25 +132,15 @@ namespace graphics
 			v->coord( M * v->coord());
 		}
 	}
-	void drawtrianglesbox(std::shared_ptr<std::vector<std::shared_ptr<Triangle>>> buff, std::shared_ptr<Image> Image)
-	{
-		int count{ 0 };
-		for each (auto tri in *buff)
-		{
-			 //get random color
-			glm::vec3 color = glm::vec3(RANDOM_COLORS[count % 10][0], RANDOM_COLORS[count % 10][1], RANDOM_COLORS[count % 10][2]);
-			tri->draw_box(Image, color);
-			count++;
-		}
-	}
-	void drawtriangles(std::shared_ptr<std::vector<std::shared_ptr<Triangle>>> buff, std::shared_ptr<Image> Image)
+
+	void drawtriangles(std::shared_ptr<std::vector<std::shared_ptr<Triangle>>> buff, std::shared_ptr<Image> Image, std::shared_ptr<ZBuffer> z_buff)
 	{
 		int count{ 0 };
 		for each (auto tri in *buff)
 		{
 			//get random color
 			glm::vec3 color = glm::vec3(RANDOM_COLORS[count % 10][0], RANDOM_COLORS[count % 10][1], RANDOM_COLORS[count % 10][2]);
-			tri->draw_tri_2(Image, color);
+			tri->DrawTri2(Image, color, z_buff);
 			count++;
 
 		}

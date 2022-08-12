@@ -20,6 +20,8 @@ private:
 	int height;
 	int comp;
 	std::vector<unsigned char> pixels;
+	// added implementation
+	// Not effecient. Need to convert float to unsigned int in future
 };
 
 #endif

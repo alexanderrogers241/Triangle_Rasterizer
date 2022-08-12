@@ -5,6 +5,8 @@
 #include "tiny_obj_loader.h"
 #include "graphics.h"
 #include "camera.h"
+#include "ZBuffer.h"
+#include <plog/Log.h>
 // This allows you to skip the `std::` in front of C++ standard library
 // functions. You can also say `using std::cout` to be more selective.
 // You should never do this in a header file.
@@ -145,6 +147,7 @@ int main(int argc, char **argv)
 	// Height of image
 	int height = 1080;
 	auto image = make_shared<Image>(width, height);
+	auto zbuff = make_shared<ZBuffer>(width, height);
 	Camera Cam(width, height);
 	// for the tri.obj
 	//Cam.camera_coord(glm::vec4(0, 0, -15, 0));
@@ -179,12 +182,11 @@ int main(int argc, char **argv)
 	// perspective divide the vertexs to get acutaly pixal coordinates
 	using  cmplx_ptr_pixal = std::shared_ptr<std::vector<std::shared_ptr<Vertex>>>;
 	cmplx_ptr_pixal pixal_buffer = graphics::conv_cart(vertBuf);
-	PrintVertexs(pixal_buffer);
 	// convert vertex buffer into triangle buffer
 	std::shared_ptr<std::vector<std::shared_ptr<Triangle>>> triBuf = graphics::conv_tri(pixal_buffer);
 
 	// draw each triangle in triangle buffer
-	graphics::drawtriangles(triBuf, image);
+	graphics::drawtriangles(triBuf, image, zbuff);
 	image->writeToFile("output.png");
 	return 0;
 }

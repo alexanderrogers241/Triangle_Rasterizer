@@ -7,22 +7,25 @@ class Camera
 {
 private:
 	// output image settings
-	int m_scrn_width;
-	int m_scrn_height;
+	int m_scrn_width_;
+	int m_scrn_height_;
 	// render volume settings
-	float m_angleOfView;
-	float m_near;
-	float m_far;
-	float m_imageAspectRatio;
-	float m_b;
-	float m_t;
-	float m_l;
-	float m_r;
+	float m_angleOfView_;
+	float m_near_;
+	float m_far_;
+	float m_imageAspectRatio_;
+	float m_b_;
+	float m_t_;
+	float m_l_;
+	float m_r_;
 	// matrixes for transformations
-	glm::mat4 m_view;
-	glm::mat4 m_persp;
-	glm::mat4 m_ortho;
-	glm::mat4 m_worldtocamera;
+	glm::mat4 m_view_;
+	glm::mat4 m_persp_;
+	glm::mat4 m_ortho_;
+	glm::mat4 m_worldtocamera_;
+	// Camera parameters
+	glm::vec4 camera_location_;
+
 	glm::mat4 GenViewMatrix(int width, int height);
 	// compute screen coordinates first
 	// from scratchapixal.com

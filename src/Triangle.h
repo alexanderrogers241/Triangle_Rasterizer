@@ -9,12 +9,16 @@
 #include "Vertex.h"
 #include "Image.h"
 #include "graphics.h"
+#include "ZBuffer.h"
+#include <iostream>
 class Triangle : public Shape_base
 {
 private:
-	float f_line_ac(float x, float y);
+	float FLine20(float x, float y);
 
-	float f_line_ab(float x, float y);
+	float FLine12(float x, float y);
+
+	float FLine01(float x, float y);
 	
 	bool comp_x(const glm::vec3& a, const glm::vec3& b);
 
@@ -36,21 +40,10 @@ public:
 	~Triangle() = default;
 
 	const int example() const override { return 1; }
-
-	void draw(std::shared_ptr<Image> pic);
-
-	void draw_color(std::shared_ptr<Image> pic);
-
-	void draw_box(std::shared_ptr<Image> pic, glm::vec3 color);
-
 	glm::vec3 bary_coord(glm::vec3 point);
-
-	void draw_tri(std::shared_ptr<Image> pic, glm::vec3 color);
-
-	void draw_tri_2(std::shared_ptr<Image> pic, glm::vec3 color);
-
+	void DrawTri2(std::shared_ptr<Image> pic, glm::vec3 color, std::shared_ptr<ZBuffer> z_buff);
 	bool Triangle::bary_coord_point_inside(glm::vec3 point);
-	bool bary_coord_point_inside2(glm::vec3 point);
+	bool BaryCoordPointInside2(glm::vec3 point);
 };
 #endif
 
